@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import Profile from "../components/Profile";
 import "./../styles/Dashboard.css";
 
 function Dashboard() {
@@ -8,7 +9,7 @@ function Dashboard() {
     <div className="dashboard-container">
       <Sidebar />
       <div className="dashboard-main">
-        <Header />
+        <Header ProfileComponent={Profile} />
         <div className="dashboard-content">
           <h2>Bienvenido a Nuestro Sitio</h2>
           <p>Has iniciado sesión correctamente.</p>

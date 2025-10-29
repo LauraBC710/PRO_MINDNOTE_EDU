@@ -1,0 +1,46 @@
+.profile-container {
+  position: absolute;
+  top: 100px; /* Adjust this value based on the header's height */
+  right: 10px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  z-index: 1001;
+  padding: 15px;
+  border: 1px solid #eee;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profile-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.profile-details p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.profile-details p strong {
+  color: #333;
+}

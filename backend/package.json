@@ -15,18 +15,18 @@
     "@nestjs/core": "^11.1.6",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.1.6",
-    "@prisma/client": "^6.14.0",
+    "@prisma/client": "^6.18.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "dotenv": "^16.4.5",
     "mysql2": "^3.11.0",
-    "prisma": "^6.14.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
     "@types/node": "^22.17.1",
     "nodemon": "^3.1.10",
+    "prisma": "^6.18.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.2"
