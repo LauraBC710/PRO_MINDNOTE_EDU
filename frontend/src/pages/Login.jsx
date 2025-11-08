@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./../styles/Login.css";
-import axios from "axios";
-
+import { login as apiLogin } from "../service/api"; // Renombrar para evitar conflicto
+import { useAuth } from "../context/AuthContext"; // Importar useAuth
 
 function Login() {
   const [usuario_correo, setEmail] = useState("");
@@ -11,53 +11,47 @@ function Login() {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login: authLogin, user: authUser } = useAuth(); // Obtener la función login y el usuario del contexto
+
+  useEffect(() => {
+    if (authUser) { // Usar el usuario del contexto para la redirección
+      navigate("/dashboard");
+    }
+  }, [authUser, navigate]);
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setModalMessage("");
+    e.preventDefault();
+    setLoading(true);
+    setModalMessage("");
 
-  try {
-    const response = await axios.post("http://localhost:3001/login", {
-      usuario_correo,
-      usuario_contrasena,
-    });
+    try {
+      const response = await apiLogin(usuario_correo, usuario_contrasena);
 
+      if (response.success) {
+        console.log("Login successful, response.data:", response.data); // Añadir console.log
+        authLogin(response.data); // Usar la función login del contexto
+        setModalMessage("¡Inicio de sesión exitoso!");
+        setShowModal(true);
 
-
-    
-    if (response.data.success) {
-      //localstorage
-      const usuario_id= response.data.data.usuario_id;
-      localStorage.removeItem("user_id")
-      localStorage.setItem("user_id", usuario_id);
-      setModalMessage("¡Inicio de sesión exitoso!");
-      
-      setShowModal(true);
-
-
-
-      // Guardar token si existe
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
+        if (response.data.token) {
+          localStorage.setItem("token", response.data.token);
+        }
+      } else {
+        setModalMessage(response.mensaje || "Correo electrónico o contraseña incorrectos.");
+        setShowModal(true);
       }
-    } else {
-      setModalMessage(response.data.message || "Correo electrónico o contraseña incorrectos.");
+    } catch (err) {
+      setModalMessage("Error al conectar con el servidor.");
       setShowModal(true);
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    setModalMessage("Error al conectar con el servidor.");
-    setShowModal(true);
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
     if (modalMessage === "¡Inicio de sesión exitoso!") {
-      navigate("/dashboard");
+      navigate("/dashboard"); // Usar navigate para una redirección más limpia
     }
   };
 

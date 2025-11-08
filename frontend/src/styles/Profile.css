@@ -44,3 +44,22 @@
 .profile-details p strong {
   color: #333;
 }
+
+.logout-button-profile {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.logout-button-profile:hover {
+  background-color: #da190b;
+}

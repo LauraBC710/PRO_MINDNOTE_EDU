@@ -1,16 +1,10 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Importar useAuth
+import "../styles/Sidebar.css"; // Importar el archivo CSS
 
 function Sidebar() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    // Limpiar datos de sesión
-    localStorage.removeItem("token");
-    localStorage.removeItem("user_id");
-    navigate("/login");
-
-  };
+  const { isAdmin, logout } = useAuth(); // Obtener isAdmin y logout del contexto
 
   return (
     <div className="sidebar">
@@ -20,7 +14,14 @@ function Sidebar() {
           <li><Link to="/dashboard">🏠 Inicio</Link></li>
           <li><Link to="/tasks">📝 Tareas</Link></li>
           <li><Link to="/notificaciones">🔔 Notificaciones</Link></li>
-          <li onClick={handleLogout} style={{ cursor: "pointer" }}>🚪 Cerrar sesión</li>
+          {isAdmin && ( // Renderizar condicionalmente para administradores
+            <li><Link to="/admin"><span>👥</span>Gestión de Usuarios</Link></li>
+          )}
+          <li>
+            <button onClick={logout} className="logout-button">
+              Cerrar Sesión
+            </button>
+          </li>
         </ul>
       </nav>
     </div>

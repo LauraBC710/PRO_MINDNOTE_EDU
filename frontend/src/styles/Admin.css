@@ -1,0 +1,93 @@
+/* Estilos para el contenedor principal del dashboard de admin */
+.admin-dashboard {
+    padding: 2rem;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
+
+.admin-dashboard h1 {
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 1rem;
+}
+
+/* Estilos para el contenedor de la lista de usuarios */
+.user-list {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-list h2 {
+    color: #444;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+/* Estilos de la tabla */
+.user-list table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.user-list th {
+    background-color: #4A90E2; /* Un azul moderno */
+    color: white;
+    font-weight: 600;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-list td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+}
+
+.user-list tbody tr:nth-child(even) {
+    background-color: #f7f9fc; /* Zebra-striping sutil */
+}
+
+.user-list tbody tr:hover {
+    background-color: #eef4ff; /* Efecto hover */
+    cursor: pointer;
+}
+
+/* Estilos para los botones de acción */
+.user-list button {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+}
+
+.user-list .btn-edit {
+    background-color: #f0ad4e; /* Naranja para editar */
+    color: white;
+}
+
+.user-list .btn-edit:hover {
+    background-color: #ec9b3b;
+    transform: translateY(-1px);
+}
+
+.user-list .btn-delete {
+    background-color: #d9534f; /* Rojo para eliminar */
+    color: white;
+}
+
+.user-list .btn-delete:hover {
+    background-color: #c9302c;
+    transform: translateY(-1px);
+}

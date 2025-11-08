@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./../styles/Register.css";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { register } from "../service/api";
+import TermsAndConditionsModal from "../components/TermsAndConditionsModal"; // Importar el nuevo modal
+import "./../styles/TermsAndConditionsModal.css"; // Importar los estilos del nuevo modal
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -9,12 +11,20 @@ function Register() {
     usuario_apellido: "",
     usuario_correo: "",
     usuario_contrasena: "",
-    usuario_rol: "usuario",
   });
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [showTermsModal, setShowTermsModal] = useState(false); // Estado para el modal de términos
+  const [termsAccepted, setTermsAccepted] = useState(false); // Nuevo estado para el checkbox
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("user_id");
+    if (userId) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -40,11 +50,22 @@ function Register() {
       return;
     }
 
+    if (!termsAccepted) {
+      setModalMessage("Debes aceptar los Términos y Condiciones para registrarte.");
+      setModalOpen(true);
+      return;
+    }
+
     try {
-      await axios.post("http://localhost:3001/usuarios", formData);
-      setModalMessage("¡Registro exitoso!");
+      const response = await register(formData); // Usar la función register de api.js
+
+      if (response.success) {
+        setModalMessage("¡Registro exitoso!");
+      } else {
+        setModalMessage(response.mensaje || "Error al registrar. Intenta de nuevo.");
+      }
     } catch (error) {
-      setModalMessage("Error al registrar. Intenta de nuevo.");
+      setModalMessage("Error al conectar con el servidor.");
     }
     setModalOpen(true);
   };
@@ -54,6 +75,15 @@ function Register() {
     if (modalMessage === "¡Registro exitoso!") {
       navigate("/login");
     }
+  };
+
+  const openTermsModal = () => {
+    setShowTermsModal(true);
+  };
+
+  const closeTermsModal = () => {
+    setShowTermsModal(false);
+    setTermsAccepted(true); // Aceptar los términos al cerrar el modal
   };
 
   return (
@@ -100,18 +130,25 @@ function Register() {
             required
           />
         </label>
-        <label>
-          Rol:
-          <select
-            name="usuario_rol"
-            value={formData.usuario_rol}
-            onChange={handleChange}
+
+        <div className="terms-checkbox-container">
+          <input
+            type="checkbox"
+            id="termsAccepted"
+            checked={termsAccepted}
+            readOnly // Hacer el checkbox de solo lectura
             required
-          >
-            <option value="usuario">Usuario</option>
-          </select>
-        </label>
-        <button type="submit">Crear cuenta</button>
+          />
+          <label htmlFor="termsAccepted">
+            He leído y acepto los{" "}
+            <a href="#" onClick={openTermsModal}>
+              Términos y Condiciones
+            </a>
+          </label>
+        </div>
+
+        <button type="submit" disabled={!termsAccepted}>Crear cuenta</button>
+        
       </form>
 
       {modalOpen && (
@@ -122,6 +159,8 @@ function Register() {
           </div>
         </div>
       )}
+
+      <TermsAndConditionsModal isOpen={showTermsModal} onClose={closeTermsModal} />
     </div>
   );
 }

@@ -10,10 +10,26 @@ import { TipoTareasModule } from './tipo_tareas/tipo_tareas.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { LoginModule } from './login/login.module';
+import { MailModule } from './email/mail.module'; // Importar EmailModule
+import { ConfigModule } from '@nestjs/config'; // Importar ConfigModule
 
 
 @Module({
-  imports: [UsuariosModule, TareasModule, EstadoTareasModule, HistorialTareasModule, NotificacionesModule, PrioridadTareasModule, TipoTareasModule, PrismaModule, LoginModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // Hace que las variables de entorno estén disponibles globalmente
+    }),
+    UsuariosModule,
+    TareasModule,
+    EstadoTareasModule,
+    HistorialTareasModule,
+    NotificacionesModule,
+    PrioridadTareasModule,
+    TipoTareasModule,
+    PrismaModule,
+    LoginModule,
+    MailModule, // Importar MailModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

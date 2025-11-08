@@ -8,17 +8,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//
+// 📦 MODELOS PRINCIPALES
+//
+
+model Rol {
+  rol_id     Int       @id @default(autoincrement())
+  rol_nombre String    @unique @db.VarChar(20)
+  usuarios   Usuario[]
+
+  @@map("roles")
+}
+
 model Usuario {
-  usuario_id         Int              @id @default(autoincrement())
-  usuario_nombre     String           @db.VarChar(50)
-  usuario_apellido   String           @db.VarChar(50)
-  usuario_correo     String           @unique(map: "usuario_correo") @db.VarChar(100)
-  usuario_contrasena String           @db.VarChar(255)
-  usuario_rol        String           @db.VarChar(20)
-  historial          HistorialTarea[]
-  tareas             Tarea[]
+  usuario_id           Int              @id @default(autoincrement())
+  usuario_nombre       String           @db.VarChar(50)
+  usuario_apellido     String           @db.VarChar(50)
+  usuario_correo       String           @unique(map: "usuario_correo") @db.VarChar(100)
+  usuario_contrasena   String           @db.VarChar(255)
+  rol_id               Int
+  failedLoginAttempts  Int              @default(0)
+  lockoutUntil         DateTime?
+  rol                  Rol              @relation(fields: [rol_id], references: [rol_id])
+  historial            HistorialTarea[]
+  tareas               Tarea[]
+  verificado           Boolean          @default(false)
+  verificationToken    String?          @unique
+  verificationTokenExpires DateTime?
+  createdAt            DateTime         @default(now()) @map("created_at")
 
   @@map("usuarios")
+  auditoriaUsuariosModificados AuditoriaUsuario[] @relation("AuditoriaUsuarioToUsuario")
+  auditoriaUsuariosAdmin AuditoriaUsuario[] @relation("AuditoriaUsuarioToAdmin")
 }
 
 model EstadoTarea {
@@ -46,6 +67,10 @@ model TipoTarea {
   @@map("tipo_tareas")
 }
 
+//
+// ✅ MODELO DE TAREAS CON RELACIONES COMPLETAS
+//
+
 model Tarea {
   tarea_id          Int              @id @default(autoincrement())
   tarea_titulo      String           @db.VarChar(100)
@@ -69,6 +94,10 @@ model Tarea {
   @@index([usuario_id], map: "usuario_id")
   @@map("tareas")
 }
+
+//
+// 🕓 HISTORIAL Y NOTIFICACIONES
+//
 
 model HistorialTarea {
   historial_id            Int         @id @default(autoincrement())
@@ -96,4 +125,21 @@ model Notificacion {
 
   @@index([tarea_id], map: "tarea_id")
   @@map("notificaciones")
+}
+
+model AuditoriaUsuario {
+  id                Int      @id @default(autoincrement())
+  usuarioId         Int
+  adminId           Int
+  campoModificado   String   @db.VarChar(100)
+  valorAntiguo      String?  @db.Text
+  valorNuevo        String?  @db.Text
+  fechaModificacion DateTime @default(now()) @map("fecha_modificacion")
+
+  usuario Usuario @relation("AuditoriaUsuarioToUsuario", fields: [usuarioId], references: [usuario_id])
+  admin   Usuario @relation("AuditoriaUsuarioToAdmin", fields: [adminId], references: [usuario_id])
+
+  @@index([usuarioId])
+  @@index([adminId])
+  @@map("auditoria_usuarios")
 }

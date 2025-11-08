@@ -1,0 +1,124 @@
+/* Overlay del modal de términos y condiciones */
+.terms-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro más pronunciado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+/* Contenido principal del modal */
+.terms-modal-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 550px; /* Más pequeño */
+  max-height: 70vh; /* Altura máxima reducida */
+  overflow-y: auto; /* Habilitar scroll */
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  animation: fadeInScale 0.3s ease-out forwards;
+  transform: translateY(-20px); /* Mover ligeramente hacia arriba */
+}
+
+/* Cabecera del modal */
+.terms-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  flex-shrink: 0; /* Evita que el header se encoja */
+}
+
+.terms-modal-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.terms-close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #6c757d;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.terms-close-button:hover {
+  color: #333;
+}
+
+/* Cuerpo del modal */
+.terms-modal-body {
+  padding: 1.5rem;
+  line-height: 1.6;
+  color: #495057;
+  flex-grow: 1; /* Permite que el cuerpo ocupe el espacio restante */
+}
+
+.terms-modal-body h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.terms-modal-body p, .terms-modal-body ul {
+  margin-bottom: 1rem;
+}
+
+.terms-modal-body ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+/* Pie de página del modal */
+.terms-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  text-align: right;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  flex-shrink: 0; /* Evita que el footer se encoja */
+}
+
+.terms-close-button-footer {
+  background: linear-gradient(135deg, #7b2cbf, #ff85d8);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.terms-close-button-footer:hover {
+  background-color: #0056b3;
+}
+
+/* Animación de entrada */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

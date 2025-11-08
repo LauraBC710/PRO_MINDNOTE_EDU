@@ -1,0 +1,98 @@
+/* Contenedor principal de las tarjetas de usuario */
+.user-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Columnas responsivas */
+  gap: 20px; /* Espacio entre tarjetas */
+  padding: 20px;
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 20px auto; /* Centrar el contenedor */
+}
+
+/* Estilos para cada tarjeta de usuario */
+.user-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px; /* Altura mínima para las tarjetas */
+}
+
+.user-card:hover {
+  transform: translateY(-5px); /* Efecto de elevación al pasar el ratón */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.user-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.user-card p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.user-card p strong {
+  color: #333;
+}
+
+.user-card .user-role {
+  font-weight: bold;
+  color: #007bff; /* Color distintivo para el rol */
+  margin-top: 10px;
+}
+
+/* Estilos para el título de la sección */
+.user-cards-section-title {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 2rem;
+}
+
+/* Estilos para los botones de filtro */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
+}
+
+.filter-buttons button {
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #495057;
+  font-weight: 500;
+}
+
+.filter-buttons button:hover {
+  background-color: #dee2e6;
+  border-color: #adb5bd;
+}
+
+.filter-buttons button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+}
+
+.filter-buttons button.active:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}

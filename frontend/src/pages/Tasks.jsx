@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import Modal from "../components/Modal";
 import "./../styles/Tasks.css";
 
 const Tasks = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
   const [formData, setFormData] = useState({
     tarea_titulo: "",
     tarea_descripcion: "",
@@ -28,7 +38,7 @@ const Tasks = () => {
   
   const fetchTareas = async () => {
     try {
-      const response = await fetch("http://localhost:3001/tareas");
+      const response = await fetch("http://localhost:3002/tareas");
       if (response.ok) {
         const data = await response.json();
         const userId = Number(localStorage.getItem("user_id"));
@@ -60,7 +70,7 @@ const Tasks = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3001/tareas", {
+      const response = await fetch("http://localhost:3002/tareas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -109,9 +119,7 @@ const Tasks = () => {
     setAbiertos((prev) => ({ ...prev, [tipo]: !prev[tipo] }));
   };
 
-  return localStorage.getItem("user_id") === null ? (
-    <div>no autenticado</div>
-  ) : (
+  return (
     <div className="dashboard-container">
       <Sidebar />
       <div className="dashboard-main">

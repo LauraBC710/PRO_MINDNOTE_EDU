@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Header.css";
 import axios from "axios";
+import { API_URL } from "../service/api"; // Importar API_URL
 
 function Header({ ProfileComponent }) {
   const [isProfileOpen, setProfileOpen] = useState(false);
@@ -9,13 +10,16 @@ function Header({ ProfileComponent }) {
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
     if (userId) {
-      axios.get(`http://localhost:3001/usuarios/${userId}`)
+      axios.get(`${API_URL}/usuarios/${userId}`) // Usar API_URL
         .then(response => {
           setUser(response.data);
         })
         .catch(error => {
           console.error("Error fetching user data:", error);
+          setUser(null); // Reset user on error
         });
+    } else {
+      setUser(null); // Clear user if userId is not in localStorage
     }
   }, []);
 
@@ -27,8 +31,8 @@ function Header({ ProfileComponent }) {
     <header className="header">
       <h1>Panel de Control</h1>
       <div className="user-info" onClick={toggleProfile}>
-        <p className="button-profile"><span>👤 </span>{user ? user.usuario_nombre : 'Usuario'}</p>
-        {isProfileOpen && <ProfileComponent toggleProfile={toggleProfile} />}
+        <p className="button-profile"><span>👤 </span>{user ? user.usuario_nombre : 'Cargando...'}</p>
+        {isProfileOpen && ProfileComponent && <ProfileComponent toggleProfile={toggleProfile} />}
       </div>
     </header>
   );
