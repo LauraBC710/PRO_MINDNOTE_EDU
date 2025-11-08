@@ -3,7 +3,7 @@
    ===================================== */
 .page-container {
   height: 83vh;
-  height: 83svh;
+  height: 86svh;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -268,7 +268,7 @@
   .page-container {
     position: static;
     height: auto;
-    min-height: 72svh;
+    min-height: 82svh;
     padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
     padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
     padding-top: var(--space-md, 1rem);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import Profile from "../components/Profile"; // Importar Profile
+import Profile from "../components/Profile";
 import Modal from "../components/Modal";
 import "./../styles/Tasks.css";
 
@@ -29,22 +29,17 @@ const Tasks = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({ title: "", message: "" });
-
- 
   const [tareas, setTareas] = useState([]);
-
-  
+  const [abiertos, setAbiertos] = useState({});
+  const [sidebarOpen, setSidebarOpen] = useState(false); // 👈 nuevo estado
   const today = new Date().toISOString().split("T")[0];
 
-  
   const fetchTareas = async () => {
     try {
       const response = await fetch("http://localhost:3002/tareas");
       if (response.ok) {
         const data = await response.json();
         const userId = Number(localStorage.getItem("user_id"));
-
-        // Filtrar solo las tareas del usuario logueado
         const userTasks = data.filter((tarea) => tarea.usuario_id === userId);
         setTareas(userTasks);
       }
@@ -53,12 +48,10 @@ const Tasks = () => {
     }
   };
 
-  
   useEffect(() => {
     fetchTareas();
   }, []);
 
-  // Manejo de cambios del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -67,7 +60,6 @@ const Tasks = () => {
     });
   };
 
-  // Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -95,7 +87,6 @@ const Tasks = () => {
           tipo_id: "",
         });
 
-        // Recargar lista de tareas
         fetchTareas();
       } else {
         setModalInfo({
@@ -114,14 +105,32 @@ const Tasks = () => {
     }
   };
 
-  // Estado para manejar acordeón
-  const [abiertos, setAbiertos] = useState({});
   const toggleGrupo = (tipo) => {
     setAbiertos((prev) => ({ ...prev, [tipo]: !prev[tipo] }));
   };
 
   return (
-    <div className="dashboard-container">
+    <div
+      className={`dashboard-container ${
+        sidebarOpen ? "is-sidebar-open" : ""
+      }`}
+    >
+      {/* Botón hamburguesa */}
+      <button
+        className="sidebar-toggle"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-label="Toggle Sidebar"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      {/* Backdrop */}
+      <div
+        onClick={() => setSidebarOpen(false)}
+      ></div>
+
       <Sidebar />
       <div className="dashboard-main">
         <Header ProfileComponent={Profile} />
@@ -155,7 +164,7 @@ const Tasks = () => {
                 name="tarea_fechaLimite"
                 value={formData.tarea_fechaLimite}
                 onChange={handleChange}
-                min={today}   
+                min={today}
                 required
               />
 
@@ -212,18 +221,17 @@ const Tasks = () => {
               <button type="submit">Guardar Tarea</button>
             </form>
 
-            {/*Lista de tareas con acordeón */}
+            {/* Lista de tareas */}
             <div className="tasks-list">
               <h3>📌 Lista de Tareas</h3>
               {tareas.length === 0 ? (
                 <p>No tienes tareas registradas.</p>
               ) : (
                 (() => {
-                  // Agrupar tareas por tipo
                   const grupos = {
-                    1: { nombre: "Académico🎓", tareas: [] },
-                    2: { nombre: "Personal👋", tareas: [] },
-                    3: { nombre: "Recordatorio⌚", tareas: [] },
+                    1: { nombre: "Académico 🎓", tareas: [] },
+                    2: { nombre: "Personal 👋", tareas: [] },
+                    3: { nombre: "Recordatorio ⌚", tareas: [] },
                   };
 
                   tareas.forEach((t) => {
@@ -281,7 +289,7 @@ const Tasks = () => {
         </div>
       </div>
 
-      {/* Modal de confirmación */}
+      {/* Modal */}
       <Modal
         isOpen={modalOpen}
         title={modalInfo.title}

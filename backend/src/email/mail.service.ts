@@ -23,7 +23,7 @@ export class MailService {
   async sendUserVerificationEmail(to: string, token: string, usuario_nombre: string) {
     const backendUrl =
       this.configService.get<string>('BACKEND_URL') ||
-      'http://localhost:3002';
+      'http://localhost:3003';
     const verificationLink = `${backendUrl}/usuarios/verify?token=${token}`;
 
     try {

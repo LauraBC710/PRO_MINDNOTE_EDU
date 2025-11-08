@@ -1,6 +1,6 @@
 /* =========================================
    Dashboard responsive (desktop + off-canvas)
-   Mantiene distribución en desktop
+   Funcional y con z-index corregidos
    ========================================= */
 
 /* --- Layout base --- */
@@ -10,6 +10,7 @@
   min-height: 100vh;     /* fallback */
   min-height: 100svh;    /* viewport estable */
   position: relative;
+  z-index: 0; /* base del flujo */
 }
 
 /* Sidebar fija en desktop */
@@ -25,6 +26,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  z-index: 90; /* detrás del contenido principal */
 }
 
 .sidebar h2 {
@@ -63,6 +65,8 @@
   flex-direction: column;
   margin-left: 250px;   /* coincide con el ancho de la sidebar */
   min-width: 0;         /* evita overflow horizontal */
+  position: relative;
+  z-index: 1; /* contenido clickeable */
 }
 
 /* Header + contenido */
@@ -97,7 +101,9 @@
   transition: transform 0.2s ease;
 }
 
-.card:hover { transform: translateY(-5px); }
+.card:hover {
+  transform: translateY(-5px);
+}
 
 /* --- Botón hamburguesa (solo se muestra en ≤768px) --- */
 .sidebar-toggle {
@@ -130,6 +136,23 @@
   background: rgba(0,0,0,.35);
   z-index: 95;
   animation: fadeIn .2s ease-out both;
+
+  /* por defecto no bloquea clics */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* activo solo cuando sidebar está abierto */
+.is-sidebar-open .sidebar-backdrop {
+  pointer-events: all;
+  opacity: 1;
+}
+
+/* --- Sidebar visible al abrir en móvil --- */
+.is-sidebar-open .sidebar {
+  transform: translateX(0);
+  z-index: 100; /* sobre contenido y backdrop */
 }
 
 /* --- Preferencias de movimiento --- */
@@ -170,11 +193,6 @@
     width: 260px;        /* ancho fijo del off-canvas en móvil */
   }
 
-  /* Cuando el contenedor tiene la clase is-sidebar-open, mostramos el sidebar */
-  .is-sidebar-open .sidebar {
-    transform: translateX(0);
-  }
-
   .dashboard-header { padding: 0.875rem 1.25rem; }
   .dashboard-content { padding: 1.25rem; }
 
@@ -210,5 +228,6 @@
 
 /* --- Animación para el backdrop --- */
 @keyframes fadeIn {
-  from { opacity: 0; } to { opacity: 1; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
