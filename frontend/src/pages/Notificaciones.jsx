@@ -2,9 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
+import Profile from '../components/Profile' // Importar Profile
 import '../styles/Notificaciones.css'
+import { useAuth } from '../context/AuthContext' // Importar useAuth
 
-const API_BASE = 'http://localhost:3002'
+const API_BASE = 'http://localhost:3001'
 
 function Notificaciones() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -14,6 +16,7 @@ function Notificaciones() {
   const [err, setErr] = useState('')
   const [filter, setFilter] = useState('all') // all | unread
   const [q, setQ] = useState('')
+  const { token } = useAuth() // Obtener token del contexto
 
   const toggleSidebar = () => setSidebarOpen((v) => !v)
   const closeSidebar = () => setSidebarOpen(false)
@@ -34,7 +37,6 @@ function Notificaciones() {
         setLoading(true)
         setErr('')
 
-        const token = localStorage.getItem('token')
         if (!token) {
           setErr('No autenticado.')
           setLoading(false)
@@ -57,14 +59,15 @@ function Notificaciones() {
         )
       } catch (e) {
         console.error(e)
-        setErr('Error al cargar notificaciones.')
+        setErr('')
+        setItems([])
       } finally {
         setLoading(false)
       }
     }
 
     fetchNotificaciones()
-  }, [])
+  }, [token])
 
   // Filtros + búsqueda
   useEffect(() => {
@@ -84,7 +87,6 @@ function Notificaciones() {
 
   const markAsRead = async (id) => {
     try {
-      const token = localStorage.getItem('token')
       await axios.patch(
         `${API_BASE}/notificaciones/${id}`,
         { notificacion_entregado: true },
@@ -101,7 +103,6 @@ function Notificaciones() {
 
   const markAllAsRead = async () => {
     try {
-      const token = localStorage.getItem('token')
       await axios.patch(
         `${API_BASE}/notificaciones/marcar-todas`,
         {},
@@ -148,7 +149,7 @@ function Notificaciones() {
           <span />
         </button>
 
-        <Header />
+        <Header ProfileComponent={Profile} />
 
         <div className="dashboard-content">
           <div className="page-header">

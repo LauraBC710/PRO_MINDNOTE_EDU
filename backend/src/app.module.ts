@@ -12,6 +12,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { LoginModule } from './login/login.module';
 import { MailModule } from './email/mail.module'; // Importar EmailModule
 import { ConfigModule } from '@nestjs/config'; // Importar ConfigModule
+import { ScheduleModule } from '@nestjs/schedule';
 
 
 @Module({
@@ -19,6 +20,7 @@ import { ConfigModule } from '@nestjs/config'; // Importar ConfigModule
     ConfigModule.forRoot({
       isGlobal: true, // Hace que las variables de entorno estén disponibles globalmente
     }),
+    ScheduleModule.forRoot(),
     UsuariosModule,
     TareasModule,
     EstadoTareasModule,

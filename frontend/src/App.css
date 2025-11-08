@@ -1,3 +1,9 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que .App ocupe toda la altura */
+}
+
 .page-container {
   max-width: min(600px, 92vw);
   margin: clamp(1rem, 1rem + 3vw, 50px) auto;
@@ -73,6 +79,7 @@ button:focus-visible {
 }
 
 .main-content {
+  flex-grow: 1; /* Permite que main-content ocupe el espacio restante */
   padding-bottom: clamp(72px, 6vh, 100px);
 }
 

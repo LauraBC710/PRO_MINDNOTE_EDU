@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import Profile from "../components/Profile"; // Importar Profile
 import Modal from "../components/Modal";
 import "./../styles/Tasks.css";
 
@@ -123,7 +124,7 @@ const Tasks = () => {
     <div className="dashboard-container">
       <Sidebar />
       <div className="dashboard-main">
-        <Header />
+        <Header ProfileComponent={Profile} />
         <div className="dashboard-content">
           <h2>Gestión de Tareas</h2>
 

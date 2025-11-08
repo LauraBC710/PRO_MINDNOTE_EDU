@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
+import Notificaciones from './pages/Notificaciones';
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import EmailVerificationPage from "./pages/EmailVerificationPage"; // Importar el nuevo componente
 
@@ -19,7 +20,7 @@ function AppLayout() {
   const location = useLocation();
 
 
-  const hiddenRoutes = ["/dashboard", "/tasks", "/admin"];
+  const hiddenRoutes = ["/dashboard", "/tasks", "/admin", "/notificaciones"];
   const hideNavbar = hiddenRoutes.includes(location.pathname.toLowerCase());
 
   return (
@@ -33,6 +34,7 @@ function AppLayout() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-email" element={<EmailVerificationPage />} />
+
           
           {/* Rutas Protegidas */}
           <Route 
@@ -50,6 +52,14 @@ function AppLayout() {
                 <Tasks />
               </ProtectedRoute>
             } 
+          />
+          <Route
+            path="/notificaciones"
+            element={
+              <ProtectedRoute>
+                <Notificaciones />
+              </ProtectedRoute>
+            }
           />
           <Route 
             path="/admin" 

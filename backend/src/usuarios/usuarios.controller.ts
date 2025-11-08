@@ -10,8 +10,8 @@ import {
   BadRequestException,
   NotFoundException,
   Res, // Añadir Res
-  Response, // Añadir Response
 } from '@nestjs/common';
+import { Response } from 'express'; // Importar Response de express
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -42,7 +42,7 @@ export class UsuariosController {
   // 🔹 Endpoint para verificar el correo (vía enlace del correo)
   // Ejemplo de URL: http://localhost:3000/usuarios/verify?token=abcd-1234
   @Get('verify')
-  async verifyEmail(@Query('token') token: string, @Res() res: Response) {
+  async verifyEmail(@Query('token') token: string, @Res({ passthrough: true }) res: Response) {
     const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:5173'; // Default frontend URL
 
     if (!token) {
