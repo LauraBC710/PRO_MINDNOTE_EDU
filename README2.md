@@ -106,7 +106,7 @@ Endpoints del backend
 
 Campos y reglas necesarias en la base de datos
 
-✔ Hice revisiones de código
+✔ Hice revisiones de código...
 
 Antes de ejecutar:
 
