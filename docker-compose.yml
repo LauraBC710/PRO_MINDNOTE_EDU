@@ -1,0 +1,17 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3005:3005" # Mapea el puerto 3002 del contenedor al 3002 de tu máquina
+    container_name: backend_service
+    env_file:
+      - ./backend/.env # Carga las variables de entorno desde el archivo .env
+    command: npm run start:dev # Asegúrate de que este comando sea el correcto para iniciar tu backend
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173" # Mapea el puerto 5173 del contenedor al 5173 de tu máquina
+    container_name: frontend_service
+    environment:
+      - VITE_BACKEND_URL=http://localhost:3002 # Configura la URL del backend para el frontend

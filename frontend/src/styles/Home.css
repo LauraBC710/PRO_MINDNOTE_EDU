@@ -93,7 +93,7 @@
 
 @media (max-width: 768px) {
   .home-container {
-    min-height: 66svh;
+    min-height: 80svh;
     padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
     padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
   }
@@ -109,7 +109,7 @@
 
 @media (max-width: 576px) {
   .home-container {
-    min-height: 60svh;
+    min-height: 80svh;
   }
 
   .overlay {

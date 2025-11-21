@@ -1,27 +1,53 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Importar useAuth
-import "../styles/Sidebar.css"; // Importar el archivo CSS
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Sidebar() {
-  const { isAdmin, logout } = useAuth(); // Obtener isAdmin y logout del contexto
+  const { isAdmin } = useAuth();
 
   return (
     <div className="sidebar">
       <h2>MindNote.EDU</h2>
       <nav>
         <ul>
-          <li><Link to="/dashboard">🏠 Inicio</Link></li>
-          <li><Link to="/tasks">📝 Tareas</Link></li>
-          <li><Link to="/notificaciones">🔔 Notificaciones</Link></li>
-          {isAdmin && ( // Renderizar condicionalmente para administradores
-            <li><Link to="/admin"><span>👥</span>Gestión de Usuarios</Link></li>
-          )}
           <li>
-            <button onClick={logout} className="logout-button">
-              Cerrar Sesión
-            </button>
+            <NavLink
+              to="/dashboard"
+              end
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              🏠 Inicio
+            </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/tasks"
+              end
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              📝 Tareas
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/notificaciones"
+              end
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              🔔 Notificaciones
+            </NavLink>
+          </li>
+          {isAdmin && (
+            <li>
+              <NavLink
+                to="/admin"
+                end
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                👥 Gestión de Usuarios
+              </NavLink>
+            </li>
+          )}
         </ul>
       </nav>
     </div>

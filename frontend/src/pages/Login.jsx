@@ -29,13 +29,9 @@ function Login() {
 
       if (response.success) {
         console.log("Login successful, response.data:", response.data); // Añadir console.log
-        authLogin(response.data); // Usar la función login del contexto
+        authLogin({ ...response.data, token: response.token }); // Usar la función login del contexto
         setModalMessage("¡Inicio de sesión exitoso!");
         setShowModal(true);
-
-        if (response.data.token) {
-          localStorage.setItem("token", response.data.token);
-        }
       } else {
         setModalMessage(response.mensaje || "Correo electrónico o contraseña incorrectos.");
         setShowModal(true);
